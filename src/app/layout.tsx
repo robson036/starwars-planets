@@ -20,7 +20,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={montserrat.className}>
-                <main className="bg-main h-full bg-no-repeat max-md:bg-right-top">
+                <main className="bg-main bg-no-repeat max-md:bg-right-top">
                     <div className="flex flex-col gap-4 items-center pt-16 mx-auto w-fit">
                         <h2 className="uppercase text-white text-base">
                             Planet search

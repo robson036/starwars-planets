@@ -19,3 +19,15 @@
 body {
     height: 100vh;
 }
+
+main {
+    height: calc(100% - 80px);
+}
+
+@media (max-width: 768px) {
+    main {
+        padding-bottom: 200px;
+        height: 100%;
+        overflow-y: scroll;
+    }
+}
