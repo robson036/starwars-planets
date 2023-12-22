@@ -21,6 +21,18 @@ export default function RootLayout({
         <html lang="en">
             <body className={montserrat.className}>
                 <main className="bg-main h-full bg-no-repeat max-md:bg-right-top">
+                    <div className="flex flex-col gap-4 items-center pt-16 mx-auto w-fit">
+                        <h2 className="uppercase text-white text-base">
+                            Planet search
+                        </h2>
+                        <Image
+                            src="/img/main-logo.png"
+                            alt="Star Wars"
+                            width={321}
+                            height={143}
+                            className="max-md:w-[208px]"
+                        />
+                    </div>
                     {children}
                 </main>
                 <footer className="w-full py-6 h-20 bg-white flex justify-center fixed bottom-0 left-0">
