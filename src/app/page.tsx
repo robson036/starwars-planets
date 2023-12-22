@@ -27,7 +27,7 @@ export default function Home() {
 
                 <div className="w-1/2 max-md:w-auto">
                     <form
-                        action=""
+                        action="planet/terra"
                         className="px-8 max-md:pb-8 flex flex-col items-center"
                     >
                         <p className="text-white text-center text-xl mt-20 max-w-72 max-md:text-lg max-md:mt-15">
