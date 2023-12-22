@@ -1,4 +1,8 @@
 import Image from "next/image"
+import {
+    AdjustmentsHorizontalIcon,
+    ChevronDownIcon
+} from "@heroicons/react/24/solid"
 
 export default function Home() {
     return (
@@ -38,8 +42,35 @@ export default function Home() {
                         <input
                             type="submit"
                             value="Search"
-                            className="relative bg-[#DE1212] w-full py-2 text-base text-white rounded-xl"
+                            className="relative bg-[#DE1212] w-full py-2 text-base text-white rounded-xl cursor-pointer"
                         />
+                        <div className="flex mt-4">
+                            <span className="text-white flex gap-1 text-sm mr-2">
+                                <AdjustmentsHorizontalIcon
+                                    color="#fff"
+                                    width={20}
+                                    height={20}
+                                />
+                                Filter:
+                            </span>
+
+                            <span className="text-white flex text-sm items-center mr-2">
+                                <ChevronDownIcon
+                                    color="#fff"
+                                    width={16}
+                                    height={16}
+                                />
+                                Name
+                            </span>
+                            <span className="text-white flex text-sm items-center">
+                                <ChevronDownIcon
+                                    color="#fff"
+                                    width={16}
+                                    height={16}
+                                />
+                                Population
+                            </span>
+                        </div>
                     </form>
                 </div>
             </div>
