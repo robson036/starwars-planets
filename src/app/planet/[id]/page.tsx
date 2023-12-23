@@ -1,13 +1,19 @@
-import { Card, DescriptionItem, DescItemProps } from "@/components"
+import { Card, DescriptionItem, DescItemProps, ListItem } from "@/components"
+import { getPlanetImage } from "@/utils/planets"
 import Image from "next/image"
 import React from "react"
+
+const API_URL = "https://swapi.dev/api"
 
 interface CardInfoProps {
     titleInfos: DescItemProps
     list: string[]
 }
 
-export default function page() {
+export default async function page({ params }: { params: { id: string } }) {
+    const res = await fetch(`${API_URL}/planets/${params.id}`)
+    const data: ListItem = await res.json()
+
     const CardList = ({ titleInfos, list }: CardInfoProps) => (
         <Card>
             <DescriptionItem
@@ -25,6 +31,15 @@ export default function page() {
         </Card>
     )
 
+    const fetchGroup = async (list: string[]) => {
+        return await Promise.all(
+            list.map(async (e) => {
+                const response = await fetch(e)
+                return await response.json()
+            })
+        )
+    }
+
     return (
         <div className="w-[37rem] mt-14 rounded-xl bg-white mx-auto max-md:w-11/12 p-6">
             <div className="flex max-md:flex-col max-md:gap-4">
@@ -33,29 +48,29 @@ export default function page() {
                         width={80}
                         height={80}
                         alt="Icon planet"
-                        src="/img/planet-icon.png"
+                        src={getPlanetImage(data.name.toLowerCase())}
                     />
                     <div className="flex flex-col">
                         <span>Planet</span>
-                        <strong>TATOOINE</strong>
+                        <strong>{data.name}</strong>
                     </div>
                 </div>
                 <div className="flex flex-col w-1/2 max-md:w-full">
                     <DescriptionItem
                         label="Climate"
-                        desc="Arid"
+                        desc={data.climate}
                         image="/img/thermometer.png"
                     />
 
                     <DescriptionItem
                         label="Terrain"
-                        desc="Desert"
+                        desc={data.terrain}
                         image="/img/mountain.png"
                     />
 
                     <DescriptionItem
                         label="Population"
-                        desc="200000"
+                        desc={data.population}
                         image="/img/people.png"
                     />
                 </div>
@@ -67,18 +82,7 @@ export default function page() {
                         image: "/img/user.png",
                         label: "Residents"
                     }}
-                    list={[
-                        "People 01",
-                        "People 02",
-                        "People 04",
-                        "People 06",
-                        "People 07",
-                        "People 08",
-                        "People 09",
-                        "People 11",
-                        "People 43",
-                        "People 62"
-                    ]}
+                    list={(await fetchGroup(data.residents)).map((e) => e.name)}
                 />
 
                 <CardList
@@ -87,13 +91,7 @@ export default function page() {
                         image: "/img/movie.png",
                         label: "Films (5)"
                     }}
-                    list={[
-                        "Films 1",
-                        "Films 3",
-                        "Films 4",
-                        "Films 5",
-                        "Films 6"
-                    ]}
+                    list={(await fetchGroup(data.films)).map((e) => e.title)}
                 />
             </div>
         </div>
