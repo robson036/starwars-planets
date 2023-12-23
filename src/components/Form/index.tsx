@@ -3,6 +3,7 @@
 import React, { useState } from "react"
 import { TableResults } from ".."
 import { SubmitHandler, useForm } from "react-hook-form"
+import { ArrowPathIcon, MagnifyingGlassIcon } from "@heroicons/react/24/solid"
 
 const API_URL = "https://swapi.dev/api"
 
@@ -12,15 +13,19 @@ type Inputs = {
 
 function Form() {
     const [list, setList] = useState([])
+    const [loading, setLoading] = useState(false)
     const { register, handleSubmit } = useForm<Inputs>()
 
     async function fetchPlanets(name: string) {
         try {
+            setLoading(true)
             const response = await fetch(`${API_URL}/planets/?search=${name}`)
             const jsonData = await response.json()
             setList(jsonData.results)
         } catch (e) {
             console.error(e)
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -43,11 +48,27 @@ function Form() {
                     placeholder="Enter the name in the planet"
                     {...register("planetName")}
                 />
-                <input
-                    type="submit"
-                    value="Search"
-                    className="relative bg-[#DE1212] w-full py-2 text-base text-white rounded-xl cursor-pointer"
-                />
+                <div className="relative w-full">
+                    <input
+                        type="submit"
+                        value={loading ? "" : "Search"}
+                        className="relative bg-[#DE1212] w-full py-2 text-base text-white rounded-xl cursor-pointer"
+                    />
+                    {!loading && (
+                        <MagnifyingGlassIcon
+                            width={24}
+                            className="absolute top-2 left-28"
+                            color="#fff"
+                        />
+                    )}
+                    {loading && (
+                        <ArrowPathIcon
+                            width={24}
+                            className="absolute top-2 left-40 animate-spin"
+                            color="#fff"
+                        />
+                    )}
+                </div>
             </form>
             {!!list.length && <TableResults list={list} />}
         </React.Fragment>

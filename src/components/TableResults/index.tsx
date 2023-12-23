@@ -1,3 +1,5 @@
+"use client"
+
 import {
     AdjustmentsHorizontalIcon,
     ChevronDownIcon
@@ -5,6 +7,8 @@ import {
 
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline"
 import Link from "next/link"
+import { useState } from "react"
+import classNames from "classnames"
 
 export interface ListItem {
     name: string
@@ -28,6 +32,42 @@ interface TableResultsProps {
 }
 
 function TableResults({ list }: TableResultsProps) {
+    const [sortList, setSortList] = useState(list)
+    const [orderName, setOrderName] = useState("asc")
+    const [orderPop, setOrderPop] = useState("asc")
+
+    function orderByName(planets: ListItem[], ordem: "asc" | "desc") {
+        return planets.sort((a, b) => {
+            const nameA = a.name.toLowerCase()
+            const nameB = b.name.toLowerCase()
+
+            let compare = 0
+            if (nameA < nameB) {
+                compare = -1
+            } else if (nameA > nameB) {
+                compare = 1
+            }
+
+            return ordem === "desc" ? compare * -1 : compare
+        })
+    }
+
+    function orderByPopulation(planets: ListItem[], ordem: "asc" | "desc") {
+        return planets.sort((a, b) => {
+            const popA = Number(a.population === "unknown" ? 0 : a.population)
+            const popB = Number(b.population === "unknown" ? 0 : b.population)
+
+            let compare = 0
+            if (popA < popB) {
+                compare = -1
+            } else if (popA > popB) {
+                compare = 1
+            }
+
+            return ordem === "desc" ? compare * -1 : compare
+        })
+    }
+
     return (
         <div className="px-8 max-md:pb-8">
             <div className="flex mt-4 justify-center">
@@ -40,14 +80,54 @@ function TableResults({ list }: TableResultsProps) {
                     Filter:
                 </span>
 
-                <span className="text-white flex text-sm items-center mr-2">
-                    <ChevronDownIcon color="#fff" width={16} height={16} />
+                <button
+                    className="text-white flex text-sm items-center mr-2"
+                    onClick={() => {
+                        if (orderName === "asc") {
+                            setOrderName("desc")
+                            setSortList(orderByName(sortList, "desc"))
+                        } else {
+                            setOrderName("asc")
+                            setSortList(orderByName(sortList, "asc"))
+                        }
+                    }}
+                >
+                    <ChevronDownIcon
+                        color="#fff"
+                        width={16}
+                        height={16}
+                        className={classNames({
+                            "transition-all": true,
+                            "rotate-180": orderName === "desc",
+                            "rotate-0": orderName === "asc"
+                        })}
+                    />
                     Name
-                </span>
-                <span className="text-white flex text-sm items-center">
-                    <ChevronDownIcon color="#fff" width={16} height={16} />
+                </button>
+                <button
+                    className="text-white flex text-sm items-center"
+                    onClick={() => {
+                        if (orderPop === "asc") {
+                            setOrderPop("desc")
+                            setSortList(orderByPopulation(sortList, "desc"))
+                        } else {
+                            setOrderPop("asc")
+                            setSortList(orderByPopulation(sortList, "asc"))
+                        }
+                    }}
+                >
+                    <ChevronDownIcon
+                        color="#fff"
+                        width={16}
+                        height={16}
+                        className={classNames({
+                            "transition-all": true,
+                            "rotate-180": orderPop === "desc",
+                            "rotate-0": orderPop === "asc"
+                        })}
+                    />
                     Population
-                </span>
+                </button>
             </div>
 
             <table className="mt-5 w-full text-slate-50">
@@ -59,7 +139,7 @@ function TableResults({ list }: TableResultsProps) {
                     </tr>
                 </thead>
                 <tbody>
-                    {list.map((e, i) => (
+                    {sortList.map((e, i) => (
                         <tr key={i}>
                             <td align="left">{e.name}</td>
                             <td align="center">{e.population}</td>
