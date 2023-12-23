@@ -1,8 +1,6 @@
+import { Form } from "@/components"
+
 import Image from "next/image"
-import {
-    AdjustmentsHorizontalIcon,
-    ChevronDownIcon
-} from "@heroicons/react/24/solid"
 
 export default function Home() {
     return (
@@ -25,53 +23,8 @@ export default function Home() {
                     />
                 </div>
 
-                <div className="w-1/2 max-md:w-auto">
-                    <form
-                        action="planet/terra"
-                        className="px-8 max-md:pb-8 flex flex-col items-center"
-                    >
-                        <p className="text-white text-center text-xl mt-20 max-w-72 max-md:text-lg max-md:mt-15">
-                            Discover all the information about Planets of the
-                            Star Wars Saga
-                        </p>
-                        <input
-                            className="mt-4 py-2 w-full text-center text-[#7D7D7D] rounded-lg mb-2"
-                            type="text"
-                            placeholder="Enter the name in the planet"
-                        />
-                        <input
-                            type="submit"
-                            value="Search"
-                            className="relative bg-[#DE1212] w-full py-2 text-base text-white rounded-xl cursor-pointer"
-                        />
-                        <div className="flex mt-4">
-                            <span className="text-white flex gap-1 text-sm mr-2">
-                                <AdjustmentsHorizontalIcon
-                                    color="#fff"
-                                    width={20}
-                                    height={20}
-                                />
-                                Filter:
-                            </span>
-
-                            <span className="text-white flex text-sm items-center mr-2">
-                                <ChevronDownIcon
-                                    color="#fff"
-                                    width={16}
-                                    height={16}
-                                />
-                                Name
-                            </span>
-                            <span className="text-white flex text-sm items-center">
-                                <ChevronDownIcon
-                                    color="#fff"
-                                    width={16}
-                                    height={16}
-                                />
-                                Population
-                            </span>
-                        </div>
-                    </form>
+                <div className="w-1/2 max-md:w-auto overflow-y-scroll">
+                    <Form />
                 </div>
             </div>
         </div>
